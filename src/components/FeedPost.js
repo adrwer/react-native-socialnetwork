@@ -1,17 +1,23 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import { Entypo, AntDesign, FontAwesome5,  MaterialCommunityIcons} from "@expo/vector-icons";
 import LikeImage from "../../assets/images/like.png";
+import { useNavigation } from "@react-navigation/native"
 
 const FeedPost = ({post}) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.post}>
-        <View style={styles.header}>
+    <Pressable style={styles.post}>
+        <Pressable 
+          style={styles.header} 
+          onPress={() => navigation.navigate("Profile", { id: post.postUserId })}
+          >
           <Image source={{uri: post.User.image}} 
           style={styles.profileImage} />
           <View>
-            <Text style={styles.name}>{}</Text>
-            <Text style={styles.subTitle}></Text>
+            <Text style={styles.name}>{post.User.name}</Text>
+            <Text style={styles.subTitle}>{post.createdAt}</Text>
           </View>
           <Entypo 
             name="dots-three-horizontal"
@@ -19,7 +25,8 @@ const FeedPost = ({post}) => {
             color="gray"
             style={styles.icon}
               />
-        </View>
+        </Pressable>
+
         {post.description && (
           <Text style={styles.description}>{post.description}</Text>
         )}
@@ -57,7 +64,7 @@ const FeedPost = ({post}) => {
           </View>
 
         </View>
-    </View>
+    </Pressable>
   )
 }
 
